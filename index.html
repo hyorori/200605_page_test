@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      [data-md] {
+        background: #eee;
+        padding: 2em 1em;
+        word-break: break-all;
+        margin: 2em 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container text-center">
+      github commit test
+    </div>
+    <div class="mt-5">
+      <!-- prettier-ignore -->
+      <pre data-md="input">
+# Hello
+</pre>
+<div class="dummy"></div>
+      <!-- prettier-ignore -->
+      <pre data-md="input">
+* [VSCodeからブラウザを開く方法  |  You Look Too Cool](https://stabucky.com/wp/archives/12385)
+* [HTMLをprettierでフォーマットかけると変なところで改行がはいる件 - takeda_san’s blog](https://takeda-san.hatenablog.com/entry/2019/09/08/231123)
+* [【VSCode】Prettierの使い方＆おすすめ設定を紹介 | 札幌市のWeb・ホームページ制作｜株式会社マーベリックス](https://ma-vericks.com/vscode-prettier/)
+    > タブサイズやセミコロンの有無設定等の詳細な設定は、プロジェクトのルート直下に「.prettierrc」ファイルを作成し、JSON形式で設定してきます。
+* [Options · Prettier](https://prettier.io/docs/en/options.html)
+* [Ignoring Code · Prettier](https://prettier.io/docs/en/ignore.html) 整形対象にしたくない場合のコメ
+* [CDNから参照するcss、JavaScriptには Integrity 属性を入れよう - とあるweb屋の仕事術](https://www.toaru.jp/entry/2019/02/21/220118)
+* [HTML要素の追加方法いろいろ　挿入位置で分類 - Qiita](https://qiita.com/butakoma/items/89fa687ab90ff28d57ef)
+* [element.insertAdjacentHTML - Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Element/insertAdjacentHTML)
+* [Document.createElement() - Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Document/createElement)
+* [脱jQuery .after() .before() .insertAfter() .appendTo() .prepend() .prependTo() | q-Az](https://q-az.net/none-jquery-after-before-appendto-prepend/)
+* .after()　引数　Node or DOMString [DOMString - Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/DOMString)
+* 要素のタグ名`elm.tagName` 要素の型名`elm.__proto__.constructor.name`
+
+* 「簡単な処理をより短く効率的に書くこと」はちょうどいい難易度で娯楽性も感じられ、かつ有用なので癖付けたい。
+* `elm.parentNode.insertBefore(mdBox,elm.nextSibling);`
+メソッドを実行するのは直上の親ノード、配置位置の指定は第二引数。
+.nextSibling を用いることでinsertAfter的なことも可能（ネイティブjsにinsertAfterはない）
+</pre>
+<div class="dummy"></div>
+    </div>
+
+    <script>
+      //ES2015の記法を積極的に用いていく方針
+      //jQueryみたいに短い記述で要素の取得をしたいので簡単な関数を用意
+      //第二引数があるときは document.querySelectorAllを実行するように
+
+      const ce = (selector) => {
+        return document.createElement(selector);
+      };
+
+      const qs = (selector, isAll) => {
+        return document["querySelector" + (isAll ? "All" : "")](selector);
+      };
+      const mdAttr = "data-md";
+
+      console.dir(qs(`[${mdAttr}]`)); //HTMLElementを返し
+      console.dir(qs(`[${mdAttr}]`, 1)); //NodeListを返す
+
+      qs(`[${mdAttr}]`, 1).forEach((elm, i, arr) => {
+        let mdBox = ce("div");
+        mdBox.setAttribute(mdAttr, "output");
+        mdBox.innerHTML = marked(elm.innerHTML);
+        elm.parentNode.insertBefore(mdBox,elm.nextSibling);//ややこしいな、メソッドを実行するノードと配置の基準となるノード（第二引数）両方設定
+        elm.remove();
+      });
+      /**/
+    </script>
+  </body>
+</html>
