@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+  "workbench.colorTheme": "One Dark Pro Flat",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#00f",
+    "titleBar.inactiveBackground": "#00f"
+  }
+}
